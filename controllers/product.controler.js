@@ -74,6 +74,47 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getProductByPrice = async (req, res) => {
+  try {
+    const price = Number(req.query.price);
+    const type = req.query.type;
+
+    let result;
+    switch (type) {
+      case "lower":
+        result = await Product.find({ price: { $lte: price } }).sort({
+          price: 1,
+        });
+        break;
+      case "higher":
+        result = await Product.find({ price: { $gte: price } }).sort({
+          price: -1,
+        });
+        break;
+      case "ascending":
+        result = await Product.find().sort({
+          price: 1,
+        });
+        break;
+      case "descending":
+        result = await Product.find().sort({
+          price: -1,
+        });
+        break;
+      default:
+        return res.status(400).json({ message: `${type} is not a valid type` });
+    }
+    if (!result.length) {
+      return res
+        .status(400)
+        .json({ message: `there is no product with this type range` });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const deleteManyProduct = async (req, res) => {
   try {
     const { ids, active } = req.body;
@@ -95,6 +136,23 @@ const deleteManyProduct = async (req, res) => {
   }
 };
 
+const getProductByName = async (req, res) => {
+  try {
+    const name = req.query.name;
+    const result = await Product.find({ name: name, active: true }).select(
+      theChosenField
+    );
+
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `there is no product with this name ${name}` });
+    }
+    res.status(200).json({ result });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = {
   getProduct,
   getProductById,
@@ -102,4 +160,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   deleteManyProduct,
+  getProductByPrice,
+  getProductByName,
 };
