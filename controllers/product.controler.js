@@ -153,6 +153,82 @@ const getProductByName = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const getProductByRightFoot = async (req, res) => {
+  try {
+    const result = await Product.find({ rightFoot: true }).select(
+      theChosenField + " rightFoot"
+    );
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `there is no player with this right foot is main` });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getProductByLeftFoot = async (req, res) => {
+  try {
+    const result = await Product.find({ leftFoot: true }).select(
+      theChosenField + " leftFoot"
+    );
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `there is no player with this left foot is main` });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getProductsAreGoalKeeper = async (req, res) => {
+  try {
+    const result = await Product.find({ goalKeeper: true }).select(
+      theChosenField + " goalKeeper"
+    );
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `there is no player with this left foot is main` });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getProductsAreDefender = async (req, res) => {
+  try {
+    const result = await Product.find({ defender: true }).select(
+      theChosenField + " defender"
+    );
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `there is no player with this left foot is main` });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getProductsAreStrike = async (req, res) => {
+  try {
+    const result = await Product.find({ striker: true }).select(
+      theChosenField + " striker"
+    );
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `there is no player with this left foot is main` });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = {
   getProduct,
   getProductById,
@@ -162,4 +238,9 @@ module.exports = {
   deleteManyProduct,
   getProductByPrice,
   getProductByName,
+  getProductByLeftFoot,
+  getProductByRightFoot,
+  getProductsAreDefender,
+  getProductsAreGoalKeeper,
+  getProductsAreStrike,
 };

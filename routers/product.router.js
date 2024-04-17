@@ -3,7 +3,11 @@ const router = express.Router();
 const productController = require("../controllers/product.controler");
 
 router.get("/", productController.getProduct);
-
+router.get("/left-foot", productController.getProductByLeftFoot);
+router.get("/right-foot", productController.getProductByRightFoot);
+router.get("/defender", productController.getProductsAreDefender);
+router.get("/goal-keeper", productController.getProductsAreGoalKeeper);
+router.get("/striker", productController.getProductsAreStrike);
 //lay san pham bang gia tien
 router.get("/price", productController.getProductByPrice);
 

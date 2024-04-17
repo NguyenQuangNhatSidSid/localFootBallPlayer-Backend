@@ -23,6 +23,51 @@ const productModel = new Schema(
       type: String,
       require: false,
     },
+    numberGamePlays: {
+      type: Number,
+      require: true,
+      default: 0,
+    },
+    rankPoint: {
+      type: Number,
+      require: true,
+      default: 1,
+    },
+    rank: {
+      type: String,
+      require: true,
+      default: "bonzo",
+    },
+    defender: {
+      type: Boolean,
+      require: false,
+      default: false,
+    },
+    striker: {
+      type: Boolean,
+      require: false,
+      default: false,
+    },
+    goalKeeper: {
+      type: Boolean,
+      require: false,
+      default: false,
+    },
+    saitamaPoint: {
+      type: Number,
+      require: true,
+      default: 0,
+    },
+    rightFoot: {
+      type: Boolean,
+      require: true,
+      default: true,
+    },
+    leftFoot: {
+      type: Boolean,
+      require: true,
+      default: true,
+    },
     active: {
       type: Boolean,
       require: false,
