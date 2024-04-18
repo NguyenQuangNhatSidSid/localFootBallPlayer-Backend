@@ -1,6 +1,6 @@
 const Product = require("../models/product.model");
 
-const theChosenField = `_id name quantity price image`;
+const theChosenField = `-createdAt -updatedAt -__v -active`;
 
 const getProduct = async (req, res) => {
   try {
@@ -229,6 +229,39 @@ const getProductsAreStrike = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const getPlayerbyHeight = async (req, res) => {
+  try {
+    const height = req.query.height;
+    console.log(height);
+    const result = await Product.find({ playerHeight: { $gte: height } })
+      .select(theChosenField)
+      .sort({ playerHeight: 1 });
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `there is no player with this left foot is main` });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const getPlayerbyWeight = async (req, res) => {
+  try {
+    const weight = req.query.height;
+    const result = await Product.find({ playerWeight: { $gte: weight } })
+      .select(theChosenField)
+      .sort({ playerWeight: 1 });
+    if (result.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `there is no player with this left foot is main` });
+    }
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = {
   getProduct,
   getProductById,
@@ -243,4 +276,6 @@ module.exports = {
   getProductsAreDefender,
   getProductsAreGoalKeeper,
   getProductsAreStrike,
+  getPlayerbyWeight,
+  getPlayerbyHeight,
 };

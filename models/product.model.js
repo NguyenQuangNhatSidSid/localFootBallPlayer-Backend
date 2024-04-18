@@ -23,6 +23,30 @@ const productModel = new Schema(
       type: String,
       require: false,
     },
+    playerWeight: {
+      type: Number,
+      require: true,
+      validate: {
+        validator: function (v) {
+          return v > 50;
+        },
+        message: (props) =>
+          `${props.value} is not validate, Weight must be greater than 50 kg`,
+      },
+      default: 51,
+    },
+    playerHeight: {
+      type: Number,
+      require: true,
+      validate: {
+        validator: function (v) {
+          return v > 160;
+        },
+        message: (props) =>
+          `${props.value} is not validate, Height must be greater than 160`,
+      },
+      default: 161,
+    },
     numberGamePlays: {
       type: Number,
       require: true,

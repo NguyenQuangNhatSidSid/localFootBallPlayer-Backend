@@ -8,6 +8,8 @@ router.get("/right-foot", productController.getProductByRightFoot);
 router.get("/defender", productController.getProductsAreDefender);
 router.get("/goal-keeper", productController.getProductsAreGoalKeeper);
 router.get("/striker", productController.getProductsAreStrike);
+router.get("/player-height", productController.getPlayerbyHeight);
+router.get("/player-weight", productController.getPlayerbyWeight);
 //lay san pham bang gia tien
 router.get("/price", productController.getProductByPrice);
 
