@@ -1,4 +1,6 @@
 const Product = require("../models/product.model");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const theChosenField = `-createdAt -updatedAt -__v -active`;
 
@@ -169,6 +171,7 @@ const getProductByRightFoot = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getProductByLeftFoot = async (req, res) => {
   try {
     const result = await Product.find({ leftFoot: true }).select(
@@ -184,6 +187,7 @@ const getProductByLeftFoot = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getProductsAreGoalKeeper = async (req, res) => {
   try {
     const result = await Product.find({ goalKeeper: true }).select(
@@ -199,6 +203,7 @@ const getProductsAreGoalKeeper = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getProductsAreDefender = async (req, res) => {
   try {
     const result = await Product.find({ defender: true }).select(
@@ -214,6 +219,7 @@ const getProductsAreDefender = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getProductsAreStrike = async (req, res) => {
   try {
     const result = await Product.find({ striker: true }).select(
@@ -229,13 +235,37 @@ const getProductsAreStrike = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getPlayerbyHeight = async (req, res) => {
   try {
+    const type = req.query.type;
     const height = req.query.height;
     console.log(height);
-    const result = await Product.find({ playerHeight: { $gte: height } })
-      .select(theChosenField)
-      .sort({ playerHeight: 1 });
+    let result;
+    switch (type) {
+      case "lower":
+        result = await Product.find({ playerHeight: { $lte: height } })
+          .select(theChosenField)
+          .sort({ playerHeight: 1 });
+        break;
+      case "higher":
+        result = await Product.find({ playerHeight: { $gte: height } })
+          .select(theChosenField)
+          .sort({ playerHeight: 1 });
+        break;
+      case "ascending":
+        result = await Product.find()
+          .select(theChosenField)
+          .sort({ playerHeight: 1 });
+        break;
+      case "descending":
+        result = await Product.find()
+          .select(theChosenField)
+          .sort({ playerHeight: -1 });
+        break;
+      default:
+        return res.status(400).json({ message: `${type} is not a valid type` });
+    }
     if (result.length === 0) {
       return res
         .status(400)
@@ -246,12 +276,37 @@ const getPlayerbyHeight = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 const getPlayerbyWeight = async (req, res) => {
   try {
+    const type = req.query.type;
     const weight = req.query.height;
-    const result = await Product.find({ playerWeight: { $gte: weight } })
-      .select(theChosenField)
-      .sort({ playerWeight: 1 });
+    let result;
+    switch (type) {
+      case "lower":
+        result = await Product.find({ playerWeight: { $lte: weight } })
+          .select(theChosenField)
+          .sort({ playerWeight: 1 });
+        break;
+      case "higher":
+        result = await Product.find({ playerWeight: { $gte: weight } })
+          .select(theChosenField)
+          .sort({ playerWeight: 1 });
+        break;
+      case "ascending":
+        result = await Product.find()
+          .select(theChosenField)
+          .sort({ playerWeight: 1 });
+        break;
+      case "descending":
+        result = await Product.find()
+          .select(theChosenField)
+          .sort({ playerWeight: -1 });
+        break;
+      default:
+        return res.status(400).json({ message: `${type} is not a valid type` });
+    }
+
     if (result.length === 0) {
       return res
         .status(400)
@@ -261,6 +316,14 @@ const getPlayerbyWeight = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+const login = async (req, res) => {
+  const email = req.query.email;
+  const password = req.query.password;
+  const user = await Product.find();
+
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+  res.json(ac);
 };
 module.exports = {
   getProduct,
@@ -278,4 +341,5 @@ module.exports = {
   getProductsAreStrike,
   getPlayerbyWeight,
   getPlayerbyHeight,
+  login,
 };
