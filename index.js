@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const { env } = require("dotenv").config();
 const productRoute = require("./routers/product.router");
+const userRoute = require("./routers/user.router");
 
 const app = express();
 const port = 3000;
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extends: true }));
 
 //route
 app.use("/api/products", productRoute);
+app.use("/api/user", userRoute);
 
 //Api
 

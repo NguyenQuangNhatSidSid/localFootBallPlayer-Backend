@@ -3,7 +3,6 @@ const router = express.Router();
 const productController = require("../controllers/product.controller");
 
 router.get("/", productController.getProduct);
-router.post("/login", productController.login);
 router.get("/left-foot", productController.getProductByLeftFoot);
 router.get("/right-foot", productController.getProductByRightFoot);
 router.get("/defender", productController.getProductsAreDefender);

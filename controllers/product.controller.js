@@ -317,14 +317,7 @@ const getPlayerbyWeight = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-const login = async (req, res) => {
-  const email = req.query.email;
-  const password = req.query.password;
-  const user = await Product.find();
 
-  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-  res.json(ac);
-};
 module.exports = {
   getProduct,
   getProductById,
@@ -341,5 +334,4 @@ module.exports = {
   getProductsAreStrike,
   getPlayerbyWeight,
   getPlayerbyHeight,
-  login,
 };
