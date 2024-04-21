@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const productController = require("../controllers/product.controller");
+const validateToken = require("../middleware/validateTokenHanlder");
+
+router.use(validateToken);
 
 router.get("/", productController.getProduct);
 router.get("/left-foot", productController.getProductByLeftFoot);

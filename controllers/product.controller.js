@@ -240,8 +240,10 @@ const getPlayerbyHeight = async (req, res) => {
   try {
     const type = req.query.type;
     const height = req.query.height;
-    console.log(height);
+
+    console.log(type, height);
     let result;
+
     switch (type) {
       case "lower":
         result = await Product.find({ playerHeight: { $lte: height } })
@@ -263,13 +265,12 @@ const getPlayerbyHeight = async (req, res) => {
           .select(theChosenField)
           .sort({ playerHeight: -1 });
         break;
+
       default:
         return res.status(400).json({ message: `${type} is not a valid type` });
     }
     if (result.length === 0) {
-      return res
-        .status(400)
-        .json({ message: `there is no player with this left foot is main` });
+      return res.status(400).json({ message: ` no player found` });
     }
     res.status(200).json(result);
   } catch (error) {
