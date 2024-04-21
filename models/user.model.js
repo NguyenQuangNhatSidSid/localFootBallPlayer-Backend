@@ -6,24 +6,24 @@ const userModel = new Schema(
   {
     username: {
       type: String,
-      require: [true, "You need to name a product"],
+      required: [true, "You need to name a product"],
     },
     gender: {
       type: Boolean,
-      require: true,
+      required: true,
     },
     mobile: {
       type: Number,
-      require: true,
+      required: true,
       default: 0,
     },
     email: {
       type: String,
-      require: [true, "Must have email"],
+      required: [true, "Must have email"],
     },
     password: {
       type: String,
-      require: [true, "Must have password"],
+      required: [true, "Must have password"],
     },
   },
   { timestamps: true }

@@ -5,6 +5,11 @@ const ObjectId = Schema.ObjectId;
 
 const productModel = new Schema(
   {
+    player_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
     name: {
       type: String,
       require: [true, "You need to name a product"],

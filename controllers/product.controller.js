@@ -1,4 +1,5 @@
 const Product = require("../models/product.model");
+const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
@@ -6,7 +7,11 @@ const theChosenField = `-createdAt -updatedAt -__v -active`;
 
 const getProduct = async (req, res) => {
   try {
-    const result = await Product.find({ active: true }).select(theChosenField);
+    // const user = await User.findById(req.user.id);
+    const result = await Product.find({
+      active: true,
+      player_id: req.user.id,
+    }).select(theChosenField);
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -27,6 +32,12 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(400).json({ message: `can found user` });
+    }
+    //them user id vào req body
+    req.body.player_id = req.user.id;
     const result = await Product.create(req.body);
     console.log(result);
     res.status(200).json(result);
