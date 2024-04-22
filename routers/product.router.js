@@ -26,10 +26,10 @@ router.get("/:id", productController.getProductById);
 router.post("/", productController.createProduct);
 // dung findById va save thay cho findByIdAndUpdate vi` co the co middleware Mongoose mà bạn muốn chạy khi cập nhật một document (ví dụ, các hàm pre hoặc post save)
 // update co the dung cho ca delete (update phan status)
-router.put("/:id", productController.updateProduct);
+router.put("/update/:id", productController.updateProduct);
 //delete 1 san pham nên dùng patch
-router.patch("/:id", productController.deleteProduct);
+router.patch("/delete/:id", productController.deleteProduct);
 // delete nhieu san pham
-router.patch("/", productController.deleteManyProduct);
+router.patch("/delete-many", productController.deleteManyProduct);
 
 module.exports = router;

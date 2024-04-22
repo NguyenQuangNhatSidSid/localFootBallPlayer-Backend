@@ -54,6 +54,15 @@ const updateProduct = async (req, res) => {
     if (!product) {
       return res.status(400).json({ message: "Product not found!" });
     }
+    if (product.active === false) {
+      return res.status(400).json({ message: "Product not found!" });
+    }
+    if (product.player_id.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "you are not permission to update this player!" });
+    }
+
     // Cập nhật các trường của product theo body
     Object.keys(body).forEach((key) => {
       product[key] = body[key];
@@ -70,8 +79,14 @@ const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const product = await Product.findById(id);
+
     if (!product) {
       return res.status(400).json({ message: "Product not found!" });
+    }
+    if (product.player_id.toString() !== req.user.id) {
+      return res
+        .status(403)
+        .json({ message: "you are not permission to update this player!" });
     }
     if (product.active === true) {
       product.active = false;
