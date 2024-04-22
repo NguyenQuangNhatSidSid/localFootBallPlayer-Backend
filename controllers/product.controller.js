@@ -10,7 +10,7 @@ const getProduct = async (req, res) => {
     // const user = await User.findById(req.user.id);
     const result = await Product.find({
       active: true,
-      player_id: req.user.id,
+      manager_id: req.user.id,
     }).select(theChosenField);
     res.status(200).json(result);
   } catch (error) {
@@ -37,7 +37,7 @@ const createProduct = async (req, res) => {
       return res.status(400).json({ message: `can found user` });
     }
     //them user id vào req body
-    req.body.player_id = req.user.id;
+    req.body.manager_id = req.user.id;
     const result = await Product.create(req.body);
     console.log(result);
     res.status(200).json(result);
@@ -57,7 +57,7 @@ const updateProduct = async (req, res) => {
     if (product.active === false) {
       return res.status(400).json({ message: "Product not found!" });
     }
-    if (product.player_id.toString() !== req.user.id) {
+    if (product.manager_id.toString() !== req.user.id) {
       return res
         .status(403)
         .json({ message: "you are not permission to update this player!" });
@@ -83,7 +83,7 @@ const deleteProduct = async (req, res) => {
     if (!product) {
       return res.status(400).json({ message: "Product not found!" });
     }
-    if (product.player_id.toString() !== req.user.id) {
+    if (product.manager_id.toString() !== req.user.id) {
       return res
         .status(403)
         .json({ message: "you are not permission to update this player!" });

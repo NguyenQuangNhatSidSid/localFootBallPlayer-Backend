@@ -5,11 +5,18 @@ const ObjectId = Schema.ObjectId;
 
 const productModel = new Schema(
   {
-    player_id: {
+    manager_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
+    game_played: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Game",
+      },
+    ],
     name: {
       type: String,
       require: [true, "You need to name a product"],
