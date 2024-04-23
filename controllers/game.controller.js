@@ -17,11 +17,7 @@ const getGame = async (req, res) => {
 };
 const createGame = async (req, res) => {
   try {
-    const data = req.body;
-    // const user = await User.findById(req.user.id);
-    // if (!user) {
-    //   return res.status(400).json({ message: `can found user` });
-    // }
+    const body = req.body;
     req.body.managerId = req.user.id;
     const result = await Game.create(data);
     res.status(200).json(result);
@@ -29,5 +25,47 @@ const createGame = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const updateGame = async (req, res) => {
+  try {
+    const body = req.body;
+    const gameId = req.params.id;
+    req.body.managerId = req.user.id;
+    const game = await Game.findById(gameId);
 
-module.exports = { getGame, createGames };
+    if (!game) {
+      return res.status(400).json({ message: "Game not found!" });
+    }
+    // hàm updateGame sẽ kiểm tra liệu game.gamePoint có đủ 100 điểm để lên rank hay không. Nếu đủ, điểm game sẽ được thiết lập lại là 0, và rank sẽ được nâng lên 1 bậc.
+    if (game.gameRank === true) {
+      game.gamePoint++;
+      if (game.gamePoint >= 100) {
+        game.gamePoint = 0;
+        const ranks = [
+          "copper",
+          "silver",
+          "gold",
+          "platinum",
+          "Emerald",
+          "diamond",
+          "master",
+          "GrandMaster",
+        ];
+        const currentRankIndex = ranks.indexOf(game.rankGame);
+        if (currentRankIndex < ranks.length - 1) {
+          gameRank = ranks[currentRankIndex + 1];
+        }
+      }
+    }
+    // Cập nhật các trường của 1 game theo body
+    Object.keys(body).forEach((key) => {
+      game[key] = body[key];
+    });
+    //Lưu game
+    const result = await game.save();
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { getGame, createGame, updateGame };

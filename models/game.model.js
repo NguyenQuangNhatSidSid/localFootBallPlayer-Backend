@@ -26,10 +26,17 @@ const gameModel = new Schema(
     gameRank: {
       type: Boolean,
       required: true,
+      default: true,
+    },
+    rankGame: {
+      type: String,
+      required: true,
+      default: "copper",
     },
     gamePoint: {
-      type: String,
+      type: Number,
       required: [true, "Must have point"],
+      default: 1,
     },
   },
   { timestamps: true }
