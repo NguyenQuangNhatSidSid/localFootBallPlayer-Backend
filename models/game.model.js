@@ -28,15 +28,29 @@ const gameModel = new Schema(
       required: true,
       default: true,
     },
-    rankGame: {
+    rankOfGame: {
       type: String,
-      required: true,
+      enum: [
+        "copper",
+        "silver",
+        "gold",
+        "platinum",
+        "Emerald",
+        "diamond",
+        "master",
+        "GrandMaster",
+      ],
       default: "copper",
     },
     gamePoint: {
       type: Number,
       required: [true, "Must have point"],
       default: 1,
+    },
+    gameStatus: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
   },
   { timestamps: true }
