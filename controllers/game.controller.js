@@ -1,5 +1,3 @@
-const Product = require("../models/product.model");
-const User = require("../models/user.model");
 const Game = require("../models/game.model");
 
 const theChosenField = ` -__v -gameStatus`;
@@ -9,7 +7,9 @@ const getGame = async (req, res) => {
     const result = await Game.find({
       managerId: req.user.id,
       gameStatus: true,
-    }).select(theChosenField);
+    })
+      .select(theChosenField)
+      .populate("player_Id");
     if (!result) {
       return res.status(400).json({ message: `this team is not exsited` });
     }

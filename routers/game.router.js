@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const gameController = require("../controllers/game.controller");
+const validateToken = require("../middleware/validateTokenHanlder");
 
+router.use(validateToken);
 // router.get("/", productController.getProduct);
-router.post("/game", gameController.getGame);
-router.post("/game/create-game", gameController.createGames);
-router.post("/game/find-one-game/:id", gameController.getOneGame);
-router.post("/game/update-game/:id", gameController.updateGame);
-router.post("/game/delete-game/:id", gameController.deleteGame);
-router.post("/game/get-game-by-rank", gameController.getGameByRank);
+router.get("/", gameController.getGame);
+router.post("/create-game", gameController.createGame);
+router.get("/find-one-game/:id", gameController.getOneGame);
+router.put("/update-game/:id", gameController.updateGame);
+router.patch("/delete-game/:id", gameController.deleteGame);
+router.get("/get-game-by-rank", gameController.getGameByRank);
 
 module.exports = router;

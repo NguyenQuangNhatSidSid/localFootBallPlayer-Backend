@@ -17,6 +17,20 @@ const userModel = new Schema(
       required: true,
       default: 0,
     },
+    teamRank: {
+      type: String,
+      enum: [
+        "copper",
+        "silver",
+        "gold",
+        "platinum",
+        "Emerald",
+        "diamond",
+        "master",
+        "GrandMaster",
+      ],
+      default: "copper",
+    },
     email: {
       type: String,
       required: [true, "Must have email"],
@@ -24,6 +38,10 @@ const userModel = new Schema(
     password: {
       type: String,
       required: [true, "Must have password"],
+    },
+    qrCode: {
+      type: String,
+      default: null,
     },
   },
   { timestamps: true }
