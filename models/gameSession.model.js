@@ -8,19 +8,21 @@ const gameSessionSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Game",
     },
-    playerPayments: {
-      player_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
+    playerPayments: [
+      {
+        player_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        amount: {
+          type: Number,
+        },
+        hasPaid: {
+          type: Boolean,
+          default: false,
+        },
       },
-      amount: {
-        type: Number,
-      },
-      hasPaid: {
-        type: Boolean,
-        default: false,
-      },
-    },
+    ],
   },
   { timestamps: true }
 );

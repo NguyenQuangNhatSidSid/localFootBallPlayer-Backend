@@ -4,6 +4,7 @@ const { env } = require("dotenv").config();
 const productRoute = require("./routers/product.router");
 const userRoute = require("./routers/user.router");
 const gameRoute = require("./routers/game.router");
+const paymentRoute = require("./routers/payment.router");
 
 const app = express();
 const port = 3000;
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extends: true }));
 app.use("/api/products", productRoute);
 app.use("/api/user", userRoute);
 app.use("/api/game", gameRoute);
+app.use("/api/game", paymentRoute);
 
 //Api
 

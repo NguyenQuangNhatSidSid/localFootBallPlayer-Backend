@@ -35,7 +35,30 @@ const createGameSession = async (req, res) => {
   }
 };
 
+const markPlayerPaid = async (req, res) => {
+  try {
+    const { sessionId, player } = req.body;
+    const session = await GameSession.findById(sessionId);
+    if (!session) {
+      return res.status(400).json({ message: `session is not found!` });
+    }
+    const playerPayment = session.playerPayments.find((payment) => {
+      payment.player_id.toString() === player_id;
+    });
+    if (!playePayment) {
+      return res
+        .status(400)
+        .json({ message: `player not found in this session!` });
+    }
+    playerPayment.hasPaid = true;
+    await session.save();
+    res.status(200).json({ session });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 module.exports = {
   generateQRCode,
   createGameSession,
+  markPlayerPaid,
 };
