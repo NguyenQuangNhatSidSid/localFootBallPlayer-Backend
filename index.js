@@ -31,50 +31,6 @@ app.use("/api/game", paymentRoute);
 
 // app.patch("/api/products", async (req, res) => {});
 
-// let chuoi = [];
-// const elementNumber = function (number) {
-//   for (let index = 2; index <= number; index++) {
-//     let isPrime = true;
-//     for (let divisor = 2; divisor * divisor <= index; divisor++) {
-//       if (index % divisor === 0) {
-//         isPrime = false;
-
-//         break;
-//       }
-//     }
-//     if (isPrime) {
-//       chuoi.push(index);
-//     }
-//   }
-//   return chuoi;
-// };
-
-// console.log(`${elementNumber(50)}`);
-
-// const fibonacci = function (n) {
-//   let arr = [0, 1];
-//   for (let index = 2; index < n; index++) {
-//     arr.push(arr[index - 2] + arr[index - 1]);
-//   }
-//   return arr;
-// };
-// console.log(fibonacci(10));
-
-// const descending = function (arr) {
-//   const result = arr.sort(function (a, b) {
-//     return -a + b;
-//   });
-//   return result;
-// };
-// console.log(descending([28, 5, 14, 87, 845, 54, 45, 487, 3, 48]));
-// const ascending = function (arr) {
-//   const result = arr.sort(function (a, b) {
-//     return a - b;
-//   });
-//   return result;
-// };
-// console.log(ascending([28, 5, 14, 87, 845, 54, 45, 487, 3, 48]));
-
 app.listen(port, () => console.log(`server running on port gege  ${port}`));
 mongoose
   .connect(`${process.env.MONGODB_URL}`)
@@ -84,3 +40,4 @@ mongoose
   .catch(() => {
     console.log("connection fail!");
   });
+module.exports = app;
