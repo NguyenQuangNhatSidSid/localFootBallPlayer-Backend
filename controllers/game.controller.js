@@ -4,6 +4,7 @@ const theChosenField = ` -__v -gameStatus`;
 
 const getGame = async (req, res) => {
   try {
+    console.log("hee");
     const result = await Game.find({
       managerId: req.user.id,
       gameStatus: true,
