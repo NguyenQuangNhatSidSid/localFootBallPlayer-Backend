@@ -2,9 +2,8 @@ const Game = require("../models/game.model");
 
 const theChosenField = ` -__v -gameStatus`;
 
-const getGame = async (req, res) => {
+const getGame = async (req, res, next) => {
   try {
-    console.log("hee");
     const result = await Game.find({
       managerId: req.user.id,
       gameStatus: true,
@@ -16,7 +15,7 @@ const getGame = async (req, res) => {
     }
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -31,18 +30,21 @@ const getOneGame = async (req, res) => {
     }
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
 const createGame = async (req, res) => {
   try {
-    const data = req.body;
-    req.body.managerId = req.user.id;
+    // const data = req.body;
+    // req.body.managerId = req.user.id;
+    const data = { ...req.body, managerId: req.user.id };
     const result = await Game.create(data);
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -55,7 +57,8 @@ const getGameByRank = async (req, res) => {
     }).select(theChosenField);
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -98,7 +101,8 @@ const updateGame = async (req, res) => {
     const result = await game.save();
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 
@@ -106,17 +110,18 @@ const deleteGame = async (req, res) => {
   try {
     const gameId = req.params.id;
     const game = await game.findById(gameId);
-    if (!game) {
-      return res.status(400).json({ message: "Game not found!" });
-    }
-    if (game.gameStatus === false) {
-      return res.status(400).json({ message: "Game not found!" });
+
+    if (!game || !game.gameStatus) {
+      return res
+        .status(404)
+        .json({ message: "Game not found or already deleted" });
     }
     game.gameStatus = false;
     const result = await game.save();
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // res.status(500).json({ message: error.message });
+    next(error);
   }
 };
 

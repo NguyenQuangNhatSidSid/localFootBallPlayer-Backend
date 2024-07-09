@@ -5,9 +5,10 @@ const productRoute = require("./routers/product.router");
 const userRoute = require("./routers/user.router");
 const gameRoute = require("./routers/game.router");
 const paymentRoute = require("./routers/payment.router");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 //midleware
 app.use(express.json());
@@ -19,25 +20,17 @@ app.use("/api/user", userRoute);
 app.use("/api/game", gameRoute);
 app.use("/api/game", paymentRoute);
 
-//Api
-
-// app.get("/api/product/:id", async (req, res) => {});
-
-// app.post("/api/products", async (req, res) => {});
-
-// app.put("/api/products/:id", async (req, res) => {});
-
-// app.patch("/api/products/:id", async (req, res) => {});
-
-// app.patch("/api/products", async (req, res) => {});
-
+//Error Handling Middleware
+app.use(errorHandler);
+//start Server
 app.listen(port, () => console.log(`server running on port gege  ${port}`));
+
 mongoose
   .connect(`${process.env.MONGODB_URL}`)
   .then(() => {
     console.log("Connected to database!");
   })
-  .catch(() => {
-    console.log("connection fail!");
+  .catch((err) => {
+    console.log("connection fail!", err.message);
   });
 module.exports = app;
